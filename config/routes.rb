@@ -2,7 +2,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :projects do
-    resources :bugs
+    resources :bugs do
+      patch :assign_to_self
+    end
+    member do
+      patch :assign_developer
+      patch :remove_developer
+    end
   end
 
   root "projects#index"

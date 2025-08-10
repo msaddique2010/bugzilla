@@ -1,3 +1,4 @@
+
 <h2>Bugs for <%= @project.name %></h2>
 
 <%= form_with url: project_bugs_path(@project), method: :get, data: { turbo_frame: "bugs" } do %>
@@ -15,6 +16,19 @@
   <% else %>
     <p>No bugs found.</p>
   <% end %>
+<% end %>
+
+<% if current_user.has_role?(:manager) && @project.user_id == current_user.id && @project.developer_id.nil? %>
+  <%= form_with url: assign_developer_project_path(@project), method: :patch do %>
+    <%= collection_select(:project, :developer_id, User.with_role(:developer), :id, :name) %>
+    <%= submit_tag "Assign Developer" %>
+  <% end %>
+<% elsif current_user.has_role?(:manager) && @project.user_id == current_user.id %>
+  <p>Assigned to: <strong><%= @project.developer.name %></strong></p>
+<% end %>
+
+<% if current_user.has_role?(:manager) && @project.user_id == current_user.id && @project.developer_id.present? %>
+  <%= button_to "Remove Developer", remove_developer_project_path(@project), method: :patch, data: { confirm: "Are you sure?" } %>
 <% end %>
 
 <%= link_to "New Bug", new_project_bug_path(@project) %> |

@@ -31,6 +31,8 @@ class ProjectPolicy < ApplicationPolicy
     def resolve
       if user.has_role?(:manager)
         scope.all   # Manager sees all projects
+      elsif user.has_role?(:developer)
+        scope.where(developer_id: user.id)
       else
         scope.all   # Non-manager also sees all projects
       end

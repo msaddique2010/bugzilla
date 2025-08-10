@@ -21,7 +21,8 @@ class BugPolicy < ApplicationPolicy
   end
 
   def update?
-    user.has_role?(:manager) && record.user_id == user.id
+    return true if user.has_role?(:manager)
+    record.user_id == user.id
   end
 
   def edit?

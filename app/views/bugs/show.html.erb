@@ -1,5 +1,25 @@
 <%= render @bug %>
 <div>
+  <% if @bug.project.developer_id == current_user.id %>
+  <% if @bug.user_id == current_user.id %>
+    <!-- Dropdown to update status -->
+    <%= form_with model: [@bug.project, @bug], url: project_bug_path(@bug.project, @bug), method: :patch, local: true do |form| %>
+      <%= form.label :status, "Status:" %>
+      <%= form.select :status, options_for_select([["Not Started", "not_started"], ["Started", "started"],  ["In Progress", "in_progress"], ["Resolved", "resolved"]], @bug.status) %>
+      <%= form.submit "Update" %>
+    <% end %>
+  <% else %>
+    <!-- Assign to me button -->
+    <%= button_to "Assign to me", project_bug_assign_to_self_path(@bug.project, @bug), method: :patch, data: { confirm: "Assign this bug to yourself?" } %>
+  <% end %>
+<% end %>
+
+
+
+
+
+</div>
+<div>
   <%= link_to "Edit this bug", edit_project_bug_path(@project )%> |
   <%= link_to "Back to bugs", project_bugs_path(@project) %>
 

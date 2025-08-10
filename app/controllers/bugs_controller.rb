@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
   before_action :set_project
-  before_action :set_bug, only: %i[ show edit update destroy ]
+  before_action :set_bug, only: %i[ show edit update destroy assign_to_self]
 
   def index
     @query = params[:query]
@@ -82,6 +82,15 @@ class BugsController < ApplicationController
     end
   end
 
+  def assign_to_self
+    if @bug.update(user_id: current_user.id)
+      redirect_to project_bug_path(@project, @bug), notice: "Bug assigned to you."
+    else
+      redirect_to project_bug_path(@project, @bug), alert: "Failed to assign bug."
+    end
+  end
+
+
   private
 
     def set_project
@@ -89,7 +98,8 @@ class BugsController < ApplicationController
     end
 
     def set_bug
-      @bug = @project.bugs.find(params[:id])
+      bug_id = params[:bug_id] || params[:id]
+      @bug = @project.bugs.find(bug_id)
     end
 
     def bug_params

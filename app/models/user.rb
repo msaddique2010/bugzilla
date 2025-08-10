@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :bugs, dependent: :destroy
   has_many :created_bugs, class_name: "Bug", foreign_key: "user_id", dependent: :destroy
+  has_many :assigned_projects, class_name: "Project", foreign_key: "developer_id"
 end
