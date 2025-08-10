@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_06_041957) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_10_071635) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -61,6 +61,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_041957) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "developer_id"
+    t.index ["developer_id"], name: "index_projects_on_developer_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
@@ -101,4 +103,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_041957) do
   add_foreign_key "bugs", "projects"
   add_foreign_key "bugs", "users"
   add_foreign_key "projects", "users"
+  add_foreign_key "projects", "users", column: "developer_id"
 end
