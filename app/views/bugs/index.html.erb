@@ -1,0 +1,22 @@
+<h2>Bugs for <%= @project.name %></h2>
+
+<%= form_with url: project_bugs_path(@project), method: :get, data: { turbo_frame: "bugs" } do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search bugs..." %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<%= turbo_frame_tag "bugs" do %>
+  <% if @bugs.any? %>
+    <% @bugs.each do |bug| %>
+      <%= render partial: "bug", locals: { bug: bug } %>
+      <%= link_to "Show this Bug", project_bug_path(@project, bug), data: { turbo: false } %>
+      <hr>
+    <% end %>
+  <% else %>
+    <p>No bugs found.</p>
+  <% end %>
+<% end %>
+
+<%= link_to "New Bug", new_project_bug_path(@project) %> |
+<%= link_to "Back to project", root_path %> |
+<%= button_to "Destroy this Project", project_path(@project), method: :delete, data: { confirm: "Are you sure?" } %>

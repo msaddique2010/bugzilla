@@ -1,0 +1,11 @@
+<%=button_to "Destroy this Project", project_path, method: :delete%>
+<h2>Bugs</h2>
+<%= link_to "New Bug", new_project_bug_path(@project) %>
+<% @project.bugs.each do |bug| %>
+  <p>
+    <%= bug.title %> - <%= bug.priority %>
+    (<%= link_to "Show", project_bug_path(@project, bug) %>)
+  </p>
+<% end %>
+
+&nbsp;&nbsp;|&nbsp;&nbsp; <%=link_to "Back to project", root_path %>

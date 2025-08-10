@@ -1,0 +1,13 @@
+<!-- app/views/bugs/_bugs_list.html.erb -->
+<% if bugs.any? %>
+  <% bugs.each do |bug| %>
+    <p>
+      <strong>Title:</strong> <%= bug.title %><br>
+      <strong>Status:</strong> <%= bug.status %><br>
+      <strong>Type:</strong> <%= bug.bug_type %>
+    </p>
+    <hr>
+  <% end %>
+<% else %>
+  <p>No bugs found.</p>
+<% end %>

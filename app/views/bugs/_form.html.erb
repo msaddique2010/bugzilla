@@ -1,0 +1,53 @@
+<%= form_with(model: [@project, bug], local: true, html: { multipart: true }) do |f| %>
+  <% if bug.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+      <ul>
+        <% bug.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+  <div>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :priority %><br>
+    <%= f.select :priority, ['Low', 'Medium', 'High'] %>
+  </div>
+
+  <div>
+    <%= f.label :bug_type, "Type" %><br>
+    <%= f.select :bug_type, ['Feature', 'Bug'] %>
+  </div>
+
+  <div>
+    <%= f.label :status %><br>
+    <%= f.select :status, ['New', 'Started', 'Completed/Resolved'] %>
+  </div>
+
+  <div>
+    <%= f.label :deadline %><br>
+    <%= f.datetime_select :deadline %>
+  </div>
+
+  <div>
+    <%= f.label :screenshot %><br>
+    <%= f.file_field :screenshot %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

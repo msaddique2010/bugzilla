@@ -1,0 +1,14 @@
+<!-- app/views/bugs/_bug.html.erb -->
+<div id="<%= dom_id(bug) %>">
+  <% if bug.screenshot.attached? %>
+    <p><%= image_tag url_for(bug.screenshot), width: 300, alt: "Screenshot" %></p>
+  <% end %>
+
+  <p><strong>Title:</strong> <%= bug.title %></p>
+  <p><strong>Description:</strong> <%= bug.description %></p>
+  <p><strong>Priority:</strong> <%= bug.priority %></p>
+  <p><strong>Type:</strong> <%= bug.bug_type %></p>
+  <p><strong>Status:</strong> <%= bug.status %></p>
+  <p><strong>Deadline:</strong> <%= bug.deadline %></p>
+  <p><strong>Created by:</strong> <%= bug.creator&.name.presence || bug.creator&.email || "Unknown" %></p>
+</div>

@@ -1,0 +1,25 @@
+<% content_for :title, "Projects" %>
+<h1>Projects</h1>
+
+<%= form_with url: projects_path, method: :get, data: { turbo_frame: "projects" } do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search projects..." %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<div id="projects">
+  <%= turbo_frame_tag "projects" do %>
+    <% if @projects.any? %>
+      <% @projects.each do |project| %>
+        <%= render partial: "project", locals: { project: project } %>
+        <p>
+          <%= link_to "Show this project", project_bugs_path(project), data: { turbo: false }  %>
+        </p>
+        <hr>
+      <% end %>
+    <% else %>
+      <p>No projects found.</p>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "New project", new_project_path %>
