@@ -1,0 +1,17 @@
+<h2>Report Bug: <%= @bug.title %></h2>
+
+<%= form_with model: [@project, @bug, @bug_report] do |f| %>
+  <div>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit "Submit Report" %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+<h2>Reports for Bug: <%= @bug.title %></h2>
+
+<ul>
+  <% @bug_reports.each do |report| %>
+    <li><strong><%= report.title %></strong>: <%= report.description %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Back to Bug", project_bug_path(@project, @bug) %>

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :bugs do
-      patch :assign_to_self
+        patch :assign_to_self
+        resources :bug_reports, only: [ :new, :create, :index ]
     end
     member do
       patch :assign_developer

@@ -1,5 +1,6 @@
 <%= render @bug %>
 <div>
+
   <% if @bug.project.developer_id == current_user.id %>
   <% if @bug.user_id == current_user.id %>
     <!-- Dropdown to update status -->
@@ -9,16 +10,24 @@
       <%= form.submit "Update" %>
     <% end %>
   <% else %>
-    <!-- Assign to me button -->
     <%= button_to "Assign to me", project_bug_assign_to_self_path(@bug.project, @bug), method: :patch, data: { confirm: "Assign this bug to yourself?" } %>
   <% end %>
 <% end %>
 
+</div>
 
+<div>
+  <% if current_user.has_role?("QA") %>
+  <%= link_to "Report this bug", new_project_bug_bug_report_path(@project, @bug), class: "btn btn-primary" %>
+<% end %>
 
-
+  <% if current_user.has_role?(:manager) || current_user.has_role?(:developer) || current_user.has_role?("QA") %>
+  <%= link_to "View all reports", project_bug_bug_reports_path(@project, @bug), class: "btn btn-secondary" %>
+<% end %>
 
 </div>
+
+
 <div>
   <%= link_to "Edit this bug", edit_project_bug_path(@project )%> |
   <%= link_to "Back to bugs", project_bugs_path(@project) %>
