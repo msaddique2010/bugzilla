@@ -29,7 +29,7 @@ class ProjectPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.has_role?(:manager)
+      if user.has_role?(:manager) || user.has_role?(:qa)
         scope.all   # Manager sees all projects
       elsif user.has_role?(:developer)
         scope.where(developer_id: user.id)

@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+
   # GET /projects or /projects.json
   def index
     @query = params[:query]
@@ -57,7 +58,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1 or /projects/1.json
+
+  # DELETE /projects/1 or /projects.json
   def destroy
     authorize @project
     @project.destroy!
@@ -71,6 +73,9 @@ class ProjectsController < ApplicationController
   def assign_developer
     @project = Project.find(params[:id])
     if @project.update(project_params)
+      if @project.developer_id.present?
+        ProjectMailer.project_assigned(User.find(@project.developer_id), @project).deliver_later
+      end
       redirect_to project_bugs_path(@project), notice: "Developer assigned successfully."
     else
       redirect_to project_bugs_path(@project), alert: "Failed to assign developer."
@@ -80,21 +85,24 @@ class ProjectsController < ApplicationController
   def remove_developer
     @project = Project.find(params[:id])
     if current_user.has_role?(:manager) && @project.user_id == current_user.id
-      @project.update(developer_id: nil)
+      if @project.developer_id.present?
+        removed_dev = User.find(@project.developer_id)
+        @project.update(developer_id: nil)
+        ProjectMailer.project_removed(removed_dev, @project).deliver_later
+      else
+        @project.update(developer_id: nil)
+      end
       redirect_to project_bugs_path(@project), notice: "Developer removed from project."
     else
       redirect_to project_bugs_path(@project), alert: "You are not authorized to remove developer."
     end
   end
 
-
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_project
       @project = Project.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def project_params
       params.require(:project).permit(:name, :description, :developer_id)
     end

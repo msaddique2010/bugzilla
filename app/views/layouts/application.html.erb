@@ -33,7 +33,7 @@
     <div style="dispaly: flex;">
       <%=button_to "Log Out", destroy_user_session_path, method: :delete%>
       <span>Welcome! <strong><%=current_user.name%></strong></span> ||
-      <span>Your are <strong><%= current_user.roles.first&.name.titleize || "No role assigned" %></strong></span> ||
+      <span>Your are <strong><%= current_user.roles.first&.name&.titleize || "User" %></strong></span> || 
       <span>E-mail: <strong><%= current_user.email%></strong></span>
     </div>
     <%else%>

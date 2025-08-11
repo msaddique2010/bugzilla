@@ -23,6 +23,8 @@ gem "rolify"
 
 gem "pundit"
 
+gem "sidekiq"
+
 # gem "elasticsearch-model"
 
 # gem "elasticsearch-rails"
