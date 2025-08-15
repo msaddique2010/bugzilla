@@ -31,7 +31,6 @@ class BugsController < ApplicationController
 
   # POST /projects/:project_id/bugs
   def create
-    @project = Project.find(params[:project_id])
     @bug = @project.bugs.new(bug_params)
     authorize @bug
     @bug.creator = current_user  # Set the user who entered the bug
@@ -41,7 +40,6 @@ class BugsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-
 
     # @bug = @project.bugs.new(bug_params)
     # # @bug.creator = current_user

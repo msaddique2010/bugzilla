@@ -1,0 +1,6 @@
+manager no. 1 = user1@example.com
+manager no. 2 = user2@example.com
+dev. no. 1 = 	dev1@example.com
+dev. no. 2= 	dev2@example.com
+QA no. 1 = 	qa1@example.com
+QA no. 2 = 	qa2@example.com

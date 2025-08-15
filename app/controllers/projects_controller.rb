@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
+  before_action :set_project, only: %i[ show edit update destroy ]    # This will add "@project = Project.find(params[:id])" to show, edit update and destroy action
+  before_action :authenticate_user!     # Authenticate user using devise
 
   # GET /projects or /projects.json
   def index
-    @query = params[:query]
-    @projects = policy_scope(Project)  # Filtered list
+    @query = params[:query]     # This line gets the params from the views
+    @projects = policy_scope(Project)     # This line check for Scope of the policy
 
     if @query.present?
       like_query = "%#{@query.downcase}%"
@@ -18,18 +18,15 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
-  # GET /projects/new
   def new
     @project = Project.new
     authorize @project
   end
 
-  # GET /projects/1/edit
   def edit
     authorize @project
   end
 
-  # POST /projects or /projects.json
   def create
     @project = current_user.projects.build(project_params)
     authorize @project
@@ -43,13 +40,12 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
   # PATCH/PUT /projects/1 or /projects/1.json
   def update
     authorize @project
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to @project, notice: "Project was successfully updated." }
+        format.html { redirect_to project_bugs_path(@project), notice: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -104,6 +100,6 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:name, :description, :developer_id)
+      params.require(:project).permit(:name, :description, :developer_id)   # It is a security feature, which stops user to add illegal things in model
     end
 end

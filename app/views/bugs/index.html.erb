@@ -1,6 +1,5 @@
 
 <h2>Bugs for <%= @project.name %></h2>
-
 <%= form_with url: project_bugs_path(@project), method: :get, data: { turbo_frame: "bugs" } do %>
   <%= text_field_tag :query, params[:query], placeholder: "Search bugs..." %>
   <%= submit_tag "Search" %>

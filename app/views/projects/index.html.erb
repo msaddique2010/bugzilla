@@ -1,7 +1,7 @@
 <% content_for :title, "Projects" %>
 <h1>Projects</h1>
-
-<%= form_with url: projects_path, method: :get, data: { turbo_frame: "projects" } do %>
+<!-- For sarch views -->
+<%= form_with url: projects_path, method: :get, data: { turbo_frame: "projects" } do %>   <!-- "form_with" is a from helper to easily create a form usig ruby instead of HTML, "url: projects_path" tells this form to go into ProjectsController#index, "data: { turbo_frame: "projects" }" tells only to update Turbo frame after clicking search -->
   <%= text_field_tag :query, params[:query], placeholder: "Search projects..." %>
   <%= submit_tag "Search" %>
 <% end %>
@@ -10,9 +10,9 @@
   <%= turbo_frame_tag "projects" do %>
     <% if @projects.any? %>
       <% @projects.each do |project| %>
-        <%= render partial: "project", locals: { project: project } %>
+        <%= render partial: "project", locals: { project: project } %>      <!-- In "locals: { project: project }", project from the right is the varaible from the loop, an d project on the left is the variable inside the partial -->
         <p>
-          <%= link_to "Show this project", project_bugs_path(project), data: { turbo: false }  %>
+          <%= link_to "Show this project", project_bugs_path(project), data: { turbo: false }  %>     <!-- "data: { turbo: false }" makes turbo false for this line -->
         </p>
         <hr>
       <% end %>
